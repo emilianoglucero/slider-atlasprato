@@ -4,7 +4,9 @@
   },
   "devDependencies": {
     "@parcel/transformer-glsl": "^2.5.0",
+    "cssnano": "^5.1.13",
     "parcel": "^2.7.0",
+    "postcss": "^8.2.15",
     "querystring-es3": "^0.2.1"
   }
 }

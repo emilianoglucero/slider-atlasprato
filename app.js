@@ -24,7 +24,8 @@ class Sketch {
     this.width = window.innerWidth;
     this.height = window.innerHeight;
     this.app = new PIXI.Application({
-      backgroundColor: 0x000000,
+      //   backgroundColor: 0x000000,
+      backgroundColor: 0xffc0cb,
       // resolution: window.devicePixelRatio || 1,
       resolution: 1,
       resizeTo: window,
