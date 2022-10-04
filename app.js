@@ -153,9 +153,11 @@ class Sketch {
       slide.mask.clear();
       slide.mask.beginFill(0xff0000);
 
-      let mx = 700;
+      //mask filter applied to image size
+      let mx = 1300;
       let my = 1300;
-      let DISTORTION = this.scroll * 5;
+
+      let DISTORTION = this.scroll * 4;
       let koef = 0.2;
 
       slide.uniforms.uDir = Math.sign(DISTORTION);
