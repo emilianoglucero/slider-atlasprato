@@ -1,3 +1,5 @@
+// npx parcel index.html
+
 import * as PIXI from "pixi.js";
 import noise from "./noise.jpg";
 import img from "./img.jpg";
@@ -11,11 +13,79 @@ import img7 from "./img/prato7.jpeg";
 import img8 from "./img/prato8.jpeg";
 import img9 from "./img/prato9.jpeg";
 import img10 from "./img/prato10.jpeg";
-import img11 from "./img/prato11.png";
+import img11 from "./img/prato11.jpeg";
 import img12 from "./img/prato12.jpeg";
 import img13 from "./img/prato13.jpeg";
 import img14 from "./img/prato14.jpeg";
 import img15 from "./img/prato15.jpeg";
+import img16 from "./img/prato16.jpeg";
+import img17 from "./img/prato17.jpeg";
+import img18 from "./img/prato18.jpeg";
+import img19 from "./img/prato19.jpeg";
+import img20 from "./img/prato20.jpeg";
+import img21 from "./img/prato21.jpeg";
+import img22 from "./img/prato22.jpeg";
+import img23 from "./img/prato23.jpeg";
+import img24 from "./img/prato24.jpeg";
+import img25 from "./img/prato25.jpeg";
+import img26 from "./img/prato26.jpeg";
+import img27 from "./img/prato27.jpeg";
+import img28 from "./img/prato28.jpeg";
+import img29 from "./img/prato29.jpeg";
+import img30 from "./img/prato30.jpeg";
+import img31 from "./img/prato31.jpeg";
+import img32 from "./img/prato32.jpeg";
+import img33 from "./img/prato33.jpeg";
+import img34 from "./img/prato34.jpeg";
+import img35 from "./img/prato35.jpeg";
+import img36 from "./img/prato36.jpeg";
+import img37 from "./img/prato37.jpeg";
+import img38 from "./img/prato38.jpeg";
+import img39 from "./img/prato39.jpeg";
+import img40 from "./img/prato40.jpeg";
+import img41 from "./img/prato41.jpeg";
+import img42 from "./img/prato42.jpeg";
+import img43 from "./img/prato43.jpeg";
+import img44 from "./img/prato44.jpeg";
+import img45 from "./img/prato45.jpeg";
+import img46 from "./img/prato46.jpeg";
+import img47 from "./img/prato47.jpeg";
+import img48 from "./img/prato48.jpeg";
+import img49 from "./img/prato49.jpeg";
+import img50 from "./img/prato50.jpeg";
+import img51 from "./img/prato51.jpeg";
+import img52 from "./img/prato52.jpeg";
+import img53 from "./img/prato53.jpeg";
+import img54 from "./img/prato54.jpeg";
+import img55 from "./img/prato55.jpeg";
+import img56 from "./img/prato56.jpeg";
+import img57 from "./img/prato57.jpeg";
+import img58 from "./img/prato58.jpeg";
+import img59 from "./img/prato59.jpeg";
+import img60 from "./img/prato60.jpeg";
+import img61 from "./img/prato61.jpeg";
+import img62 from "./img/prato62.jpeg";
+import img63 from "./img/prato63.jpeg";
+import img64 from "./img/prato64.jpeg";
+import img65 from "./img/prato65.jpeg";
+import img66 from "./img/prato66.jpeg";
+import img67 from "./img/prato67.jpeg";
+import img68 from "./img/prato68.jpeg";
+import img69 from "./img/prato69.jpeg";
+import img70 from "./img/prato70.jpeg";
+import img71 from "./img/prato71.jpeg";
+import img72 from "./img/prato72.jpeg";
+import img73 from "./img/prato73.jpeg";
+import img74 from "./img/prato74.jpeg";
+import img75 from "./img/prato75.jpeg";
+import img76 from "./img/prato76.jpeg";
+import img77 from "./img/prato77.jpeg";
+import img78 from "./img/prato78.jpeg";
+import img79 from "./img/prato79.jpeg";
+import img80 from "./img/prato80.jpeg";
+import img81 from "./img/prato81.jpeg";
+import img82 from "./img/prato82.jpeg";
+
 import displace from "./displace.png";
 import fragment from "./fragment.glsl";
 import vertex from "./vertex.glsl";
@@ -51,8 +121,10 @@ class Sketch {
     this.scrollEvent();
   }
 
+  // scroll speed
   scrollEvent() {
     document.addEventListener("mousewheel", (e) => {
+      console.log("wheelDelta", e.wheelDelta);
       this.scrollTarget = e.wheelDelta / 3;
     });
   }
@@ -74,6 +146,73 @@ class Sketch {
       img13,
       img14,
       img15,
+      img16,
+      img17,
+      img18,
+      img19,
+      img20,
+      img21,
+      img22,
+      img23,
+      img24,
+      img25,
+      img26,
+      img27,
+      img28,
+      img29,
+      img30,
+      img31,
+      img32,
+      img33,
+      img34,
+      img35,
+      img36,
+      img37,
+      img38,
+      img39,
+      img40,
+      img41,
+      img42,
+      img43,
+      img44,
+      img45,
+      img46,
+      img47,
+      img48,
+      img49,
+      img50,
+      img51,
+      img52,
+      img53,
+      img54,
+      img55,
+      img56,
+      img57,
+      img58,
+      img59,
+      img60,
+      img61,
+      img62,
+      img63,
+      img64,
+      img65,
+      img66,
+      img67,
+      img68,
+      img69,
+      img70,
+      img71,
+      img72,
+      img73,
+      img74,
+      img75,
+      img76,
+      img77,
+      img78,
+      img79,
+      img80,
+      img81,
+      img82,
     ];
 
     this.slides = images.map((image) => new PIXI.Sprite.from(image));
@@ -97,7 +236,7 @@ class Sketch {
       // c.pivot.y = -this.height/2 - i*this.margin;
 
       // this.container.addChild(block)
-      console.log(slide);
+      // console.log(slide);
       let image = slide;
       //   image.width = 1000;
       //   image.height = image.width / aspect;
@@ -111,7 +250,7 @@ class Sketch {
         umap: image.texture,
         filterMatrix: new PIXI.Matrix(),
       };
-      console.log(vertex, fragment);
+      // console.log(vertex, fragment);
       let displacementFilter = new PIXI.Filter(vertex, fragment, uniforms);
 
       displacementFilter.apply = function (filtermanager, input, output, e) {
@@ -221,12 +360,17 @@ class Sketch {
       slide.mask.quadraticCurveTo(C[2].x, C[2].y, p[3].x, p[3].y);
       slide.mask.quadraticCurveTo(C[3].x, C[3].y, p[0].x, p[0].y);
 
+      // https://youtu.be/L9atn_cWt_g?t=4181
       slide.container.position.y =
         ((slide.position * this.margin +
           this.currentScroll +
-          1000 * this.wholeHeight) %
+          500 * this.wholeHeight) %
           this.wholeHeight) -
         this.margin;
+      console.log("container position y", slide.container.position.y);
+
+      // position of the screen
+      // slide.container.position.y = 729;
     });
   }
 
@@ -250,7 +394,8 @@ class Sketch {
 
       this.currentScroll += this.scroll;
 
-      // console.log(this.currentScroll,'scroll')
+      //current scroll never gets less, always increases
+      // console.log(this.currentScroll, "scroll");
       this.updateAllTheThings();
 
       // rotate the container!
