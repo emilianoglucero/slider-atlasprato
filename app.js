@@ -89,6 +89,14 @@ import img82 from "./img/prato82.jpeg";
 import displace from "./displace.png";
 import fragment from "./fragment.glsl";
 import vertex from "./vertex.glsl";
+
+// fill in kinectron ip address here ie. "127.16.231.33"
+let kinectronIpAddress = "192.168.0.100";
+
+// declare kinectron
+let kinectron = null;
+kinectron = new Kinectron(kinectronIpAddress);
+
 class Sketch {
   constructor() {
     this.width = window.innerWidth;
@@ -119,14 +127,39 @@ class Sketch {
     this.setupResize();
     this.render();
     this.scrollEvent();
+
+    this.kinectronConnected();
   }
 
   // scroll speed
   scrollEvent() {
     document.addEventListener("mousewheel", (e) => {
-      console.log("wheelDelta", e.wheelDelta);
+      // console.log("wheelDelta", e.wheelDelta);
       this.scrollTarget = e.wheelDelta / 3;
     });
+  }
+
+  kinectronConnected() {
+    kinectron = new Kinectron(kinectronIpAddress);
+    // connect with application over peer
+    kinectron.makeConnection();
+    kinectron.setKinectType("windows");
+    console.log("kinectron", kinectron);
+    // console.log("ANKLELEFT", kinectron.ANKLELEFT);
+    // console.log("depth", kinectron.startDepth(value));
+    // kinectron.startDepth(kinectDepth);
+    // function kinectDepth(value) {
+    //   console.log(value);
+    // }
+    kinectron.startTrackedBodies(bodyTracked);
+    function bodyTracked(body) {
+      var handRight = body.joints[kinectron.HANDRIGHT];
+      var handLeft = body.joints[kinectron.HANDLEFT];
+      var handTipLeft = body.joints[kinectron.HANDTIPLEFT];
+      console.log({ handRight });
+      console.log({ handLeft });
+      console.log({ handTipLeft });
+    }
   }
 
   add() {
@@ -367,7 +400,7 @@ class Sketch {
           500 * this.wholeHeight) %
           this.wholeHeight) -
         this.margin;
-      console.log("container position y", slide.container.position.y);
+      // console.log("container position y", slide.container.position.y);
 
       // position of the screen
       // slide.container.position.y = 729;
