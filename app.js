@@ -96,7 +96,7 @@ let kinectronIpAddress = "192.168.0.100";
 // declare kinectron
 let kinectron = null;
 kinectron = new Kinectron(kinectronIpAddress);
-
+let rightHandX = 0;
 class Sketch {
   constructor() {
     this.width = window.innerWidth;
@@ -145,20 +145,28 @@ class Sketch {
     kinectron.makeConnection();
     kinectron.setKinectType("windows");
     console.log("kinectron", kinectron);
-    // console.log("ANKLELEFT", kinectron.ANKLELEFT);
-    // console.log("depth", kinectron.startDepth(value));
-    // kinectron.startDepth(kinectDepth);
-    // function kinectDepth(value) {
-    //   console.log(value);
+
+    // kinectron.getHands(myDrawHandsFunction);
+    // function myDrawHandsFunction(hands) {
+    //   console.log("hands", hands);
     // }
+
     kinectron.startTrackedBodies(bodyTracked);
     function bodyTracked(body) {
       var handRight = body.joints[kinectron.HANDRIGHT];
       var handLeft = body.joints[kinectron.HANDLEFT];
-      var handTipLeft = body.joints[kinectron.HANDTIPLEFT];
-      console.log({ handRight });
-      console.log({ handLeft });
-      console.log({ handTipLeft });
+      // console.log({ handRight });
+      // console.log("eje X", handRight.cameraX * 1000);
+      // console.log("eje Y", handRight.cameraY * 1000);
+      // console.log("eje Z", handRight.cameraZ * 1000);
+      // console.log({ handLeft });
+      // console.log("eje X", handLeft.cameraX * 1000);
+      // console.log("eje Y", handLeft.cameraY * 1000);
+      // console.log("eje Z", handLeft.cameraZ * 1000);
+      rightHandX = handLeft.cameraX * 23000;
+      console.log("rightHandX", rightHandX);
+
+      //conditions to move forward or backward
     }
   }
 
@@ -394,12 +402,17 @@ class Sketch {
       slide.mask.quadraticCurveTo(C[3].x, C[3].y, p[0].x, p[0].y);
 
       // https://youtu.be/L9atn_cWt_g?t=4181
+      // slide.container.position.y =
+      //   ((slide.position * this.margin +
+      //     this.currentScroll +
+      //     500 * this.wholeHeight) %
+      //     this.wholeHeight) -
+      //   this.margin;
       slide.container.position.y =
-        ((slide.position * this.margin +
-          this.currentScroll +
-          500 * this.wholeHeight) %
+        ((slide.position * this.margin + rightHandX + 500 * this.wholeHeight) %
           this.wholeHeight) -
         this.margin;
+      // slide.container.position.y = rightHandX;
       // console.log("container position y", slide.container.position.y);
 
       // position of the screen
