@@ -96,7 +96,11 @@ let kinectronIpAddress = "192.168.0.100";
 // declare kinectron
 let kinectron = null;
 kinectron = new Kinectron(kinectronIpAddress);
+
+// delclare skeleton joints
 let rightHandX = 0;
+
+// declare skeleton joints state
 // leftHandTrackingState = 2 is active, leftHandTrackingState = 1 is inactive;
 let leftHandTrackingState = 0;
 class Sketch {
@@ -136,7 +140,7 @@ class Sketch {
   // scroll speed
   scrollEvent() {
     document.addEventListener("mousewheel", (e) => {
-      console.log("wheelDelta", e.wheelDelta);
+      // console.log("wheelDelta", e.wheelDelta);
       // wheelDelta is the mousewheel scroll speed, start with 120 or -120 and go up to 600 or -600 according to speed. Could be negative or positve depending on direction
       // this.scrollTarget looks like a sweet spot formula for the scroll speed
       // this.scrollTarget = e.wheelDelta / 3;
@@ -409,21 +413,13 @@ class Sketch {
       slide.mask.quadraticCurveTo(C[3].x, C[3].y, p[0].x, p[0].y);
 
       // https://youtu.be/L9atn_cWt_g?t=4181
+      // position of the screen
       slide.container.position.y =
         ((slide.position * this.margin +
           this.currentScroll +
           500 * this.wholeHeight) %
           this.wholeHeight) -
         this.margin;
-      // slide.container.position.y =
-      //   ((slide.position * this.margin + rightHandX + 500 * this.wholeHeight) %
-      //     this.wholeHeight) -
-      //   this.margin;
-      // slide.container.position.y = rightHandX;
-      // console.log("container position y", slide.container.position.y);
-
-      // position of the screen
-      // slide.container.position.y = 729;
     });
   }
 
@@ -440,8 +436,8 @@ class Sketch {
 
   render() {
     this.app.ticker.add((delta) => {
-      console.log("this.scroll", this.scroll);
-      console.log("this.scrolTarget2222", this.scrollTarget);
+      // this.scrollTarget simulates the mouse scroll
+      //position 1
       if (rightHandX > 2000 && leftHandTrackingState === 2) {
         this.scrollTarget = 160 / 3;
       } else if (rightHandX < -2000 && leftHandTrackingState === 2) {
@@ -451,13 +447,10 @@ class Sketch {
       }
 
       this.scroll -= (this.scroll - this.scrollTarget) * 0.1;
-      console.log("rightHandX", rightHandX);
-      // this.scroll -= (rightHandX - this.scrollTarget) * 0.1;
       this.scroll *= 0.9;
       this.scrollTarget *= 0.9;
       //direction of the scroll, could be -1 or 1
       this.direction = Math.sign(this.scroll);
-      console.log("direction", this.direction);
 
       this.currentScroll += this.scroll;
 
