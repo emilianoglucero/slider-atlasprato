@@ -100,6 +100,9 @@ kinectron = new Kinectron(kinectronIpAddress);
 
 // delclare skeleton joints
 let rightHandX = 0;
+let rightHandY = 0;
+let leftHandX = 0;
+let leftHandY = 0;
 let ankleRightFootX = 0;
 let ankleRightFootY = 0;
 let ankleRightFootZ = 0;
@@ -110,7 +113,7 @@ let ankleLeftFootZ = 0;
 let kneeLeftX = 0;
 let kneeRightX = 0;
 
-let head = 0;
+let headY = 0;
 
 // declare skeleton joints state
 // leftHandTrackingState = 2 is active, leftHandTrackingState = 1 is inactive;
@@ -146,7 +149,7 @@ class Sketch {
     this.resize();
     this.setupResize();
     this.render();
-    this.scrollEvent();
+    // this.scrollEvent();
 
     this.kinectronConnected();
   }
@@ -175,8 +178,10 @@ class Sketch {
 
     kinectron.startTrackedBodies(bodyTracked);
     function bodyTracked(body) {
-      // var handRight = body.joints[kinectron.HANDRIGHT];
-      // var handLeft = body.joints[kinectron.HANDLEFT];
+      rightHandY = body.joints[kinectron.HANDRIGHT].cameraY * 23000;
+      rightHandX = body.joints[kinectron.HANDRIGHT].cameraX * 23000;
+      leftHandX = body.joints[kinectron.HANDLEFT].cameraX * 23000;
+      leftHandY = body.joints[kinectron.HANDLEFT].cameraY * 23000;
       // console.log({ handRight });
       // console.log("eje X", handRight.cameraX * 1000);
       // console.log("eje Y", handRight.cameraY * 1000);
@@ -192,10 +197,16 @@ class Sketch {
       ankleLeftFootX = body.joints[kinectron.ANKLELEFT].cameraX * 23000;
       kneeLeftX = body.joints[kinectron.KNEELEFT].cameraX * 23000;
       kneeRightX = body.joints[kinectron.KNEERIGHT].cameraX * 23000;
-      head = body.joints[kinectron.HEAD].cameraY * 23000;
-      console.log("kneeLeftX", kneeLeftX);
-      console.log("kneeRightX", kneeRightX);
-      console.log("head", head);
+      headY = body.joints[kinectron.HEAD].cameraY * 23000;
+      console.log(ankleRightFootX, "right foot");
+      console.log(ankleLeftFootX, "left foot");
+      console.log(headY, "head");
+      console.log(rightHandX, "right hand");
+      console.log(leftHandX, "left hand");
+      // console.log("kneeLeftX", kneeLeftX);
+      // console.log("kneeRightX", kneeRightX);
+      // console.log("headY", headY);
+      // console.log("rightHandY", rightHandY);
       // console.log("ankleRightFootX", ankleRightFootX);
       // console.log("ankleLeftFootX", ankleLeftFootX);
 
@@ -486,15 +497,50 @@ class Sketch {
         kneeRightX < 9500 &&
         kneeLeftX < -4500 &&
         kneeLeftX > -11000 &&
-        head < -1000
+        headY < -1000 &&
+        rightHandY < -3600
         // ankleRightFootTrackingState === 2 &&
         // ankleLeftFootTrackingState === 2
       ) {
         // this.scrollTarget = 0;
         this.scrollTarget = 160 / 3;
+        console.log("positive");
+      } else if (
+        kneeRightX < 3000 &&
+        kneeLeftX > -4500 &&
+        headY < -1000 &&
+        rightHandY > -3600
+      ) {
+        this.scrollTarget = -160 / 3;
+        console.log("negative");
+      }
+      // position 2: parado con manos a los costados, pies juntos, al medio para, a los costados avanza
+      if (
+        ankleLeftFootX < 1000 &&
+        ankleLeftFootX > -2000 &&
+        ankleRightFootX > 3800 &&
+        ankleRightFootX < 7500 &&
+        headY > 1000 &&
+        rightHandX > -11000 &&
+        rightHandX < 0 &&
+        leftHandX < -1000 &&
+        leftHandX > -11000
+      ) {
+        this.scrollTarget = 160 / 3;
+      } else if (
+        ankleLeftFootX < 1000 &&
+        ankleLeftFootX > -2000 &&
+        ankleRightFootX > 3800 &&
+        ankleRightFootX < 7500 &&
+        headY > 1000 &&
+        rightHandX > 7500 &&
+        rightHandX < 16600 &&
+        leftHandX > 3000 &&
+        leftHandX < 11500
+      ) {
+        this.scrollTarget = -160 / 3;
       }
 
-      // position 2: parado con manos arriba avanzar, abrazado para parar
       // } else if (
       //   ankleRightFootX === rightSide &&
       //   ankleLeftFootX === leftSide &&
