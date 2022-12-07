@@ -117,9 +117,14 @@ let headY = 0;
 
 // declare skeleton joints state
 // leftHandTrackingState = 2 is active, leftHandTrackingState = 1 is inactive;
-let leftHandTrackingState = 0;
 let ankleLeftFootTrackingState = 0;
 let ankleRightFootTrackingState = 0;
+let leftHandTrackingState = 0;
+let rightHandTrackingState = 0;
+let headTrackingState = 0;
+let kneeLeftTrackingState = 0;
+let kneeRightTrackingState = 0;
+
 class Sketch {
   constructor() {
     this.width = window.innerWidth;
@@ -209,8 +214,22 @@ class Sketch {
       console.log("rightHandY", rightHandY);
       // console.log("ankleRightFootX", ankleRightFootX);
       // console.log("ankleLeftFootX", ankleLeftFootX);
-
-      //conditions to move forward or backward
+      ankleRightFootTrackingState =
+        body.joints[kinectron.ANKLERIGHT].trackingState;
+      ankleLeftFootTrackingState =
+        body.joints[kinectron.ANKLELEFT].trackingState;
+      leftHandTrackingState = body.joints[kinectron.HANDLEFT].trackingState;
+      rightHandTrackingState = body.joints[kinectron.HANDRIGHT].trackingState;
+      headTrackingState = body.joints[kinectron.HEAD].trackingState;
+      kneeLeftTrackingState = body.joints[kinectron.KNEELEFT].trackingState;
+      kneeRightTrackingState = body.joints[kinectron.KNEERIGHT].trackingState;
+      // console.log("ankleRightFootTrackingState", ankleRightFootTrackingState);
+      // console.log("ankleLeftFootTrackingState", ankleLeftFootTrackingState);
+      // console.log("leftHandTrackingState", leftHandTrackingState);
+      // console.log("rightHandTrackingState", rightHandTrackingState);
+      // console.log("headTrackingState", headTrackingState);
+      // console.log("kneeLeftTrackingState", kneeLeftTrackingState);
+      // console.log("kneeRightTrackingState", kneeRightTrackingState);
     }
   }
 
@@ -495,10 +514,14 @@ class Sketch {
       if (
         kneeRightX > 3000 &&
         kneeRightX < 9500 &&
+        kneeRightTrackingState === 2 &&
         kneeLeftX < -4500 &&
         kneeLeftX > -11000 &&
+        KneeLeftTrackingState === 2 &&
         headY < -1000 &&
-        rightHandY < -3600
+        headTrackingState === 2 &&
+        rightHandY < -3600 &&
+        rightHandTrackingState === 2
         // ankleRightFootTrackingState === 2 &&
         // ankleLeftFootTrackingState === 2
       ) {
@@ -507,9 +530,13 @@ class Sketch {
         console.log("positive");
       } else if (
         kneeRightX < 3000 &&
+        kneeRightTrackingState === 2 &&
         kneeLeftX > -4500 &&
+        kneeLeftTrackingState === 2 &&
         headY < -1000 &&
-        rightHandY > -3600
+        headTrackingState === 2 &&
+        rightHandY > -3600 &&
+        rightHandTrackingState === 2
       ) {
         this.scrollTarget = -160 / 3;
         console.log("negative");
@@ -518,26 +545,36 @@ class Sketch {
       // hacia la derecha
       if (
         ankleLeftFootX > 8000 &&
+        ankleLeftFootTrackingState === 2 &&
         ankleLeftFootX < 16000 &&
         ankleRightFootX > 18500 &&
+        ankleRightFootTrackingState === 2 &&
         ankleRightFootX < 24000 &&
         headY > 4000 &&
+        headTrackingState === 2 &&
         rightHandX > 20000 &&
+        rightHandTrackingState === 2 &&
         rightHandX < 35000 &&
         leftHandX > 17000 &&
+        leftHandTrackingState === 2 &&
         leftHandX < 28000
       ) {
         this.scrollTarget = 160 / 3;
         // hacia la izquierda
       } else if (
         ankleLeftFootX > 8000 &&
+        ankleLeftFootTrackingState === 2 &&
         ankleLeftFootX < 16000 &&
         ankleRightFootX > 18500 &&
+        ankleRightFootTrackingState === 2 &&
         ankleRightFootX < 24000 &&
         headY > 4000 &&
+        headTrackingState === 2 &&
         rightHandX < 14000 &&
+        rightHandTrackingState === 2 &&
         rightHandX > 3000 &&
         leftHandX > -1500 &&
+        leftHandTrackingState === 2 &&
         leftHandX < 9000
       ) {
         this.scrollTarget = -160 / 3;
