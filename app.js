@@ -92,7 +92,7 @@ import vertex from "./vertex.glsl";
 import { POSITION_1 } from "./constants";
 
 // fill in kinectron ip address here ie. "127.16.231.33"
-let kinectronIpAddress = "192.168.0.204";
+let kinectronIpAddress = "192.168.206.223";
 
 // declare kinectron
 let kinectron = null;
@@ -198,15 +198,15 @@ class Sketch {
       kneeLeftX = body.joints[kinectron.KNEELEFT].cameraX * 23000;
       kneeRightX = body.joints[kinectron.KNEERIGHT].cameraX * 23000;
       headY = body.joints[kinectron.HEAD].cameraY * 23000;
-      console.log(ankleRightFootX, "right foot");
-      console.log(ankleLeftFootX, "left foot");
-      console.log(headY, "head");
-      console.log(rightHandX, "right hand");
-      console.log(leftHandX, "left hand");
-      // console.log("kneeLeftX", kneeLeftX);
-      // console.log("kneeRightX", kneeRightX);
-      // console.log("headY", headY);
-      // console.log("rightHandY", rightHandY);
+      // console.log(ankleRightFootX, "right foot");
+      // console.log(ankleLeftFootX, "left foot");
+      // console.log(headY, "head");
+      // console.log(rightHandX, "right hand");
+      // console.log(leftHandX, "left hand");
+      console.log("kneeLeftX", kneeLeftX);
+      console.log("kneeRightX", kneeRightX);
+      console.log("headY", headY);
+      console.log("rightHandY", rightHandY);
       // console.log("ankleRightFootX", ankleRightFootX);
       // console.log("ankleLeftFootX", ankleLeftFootX);
 
@@ -515,28 +515,30 @@ class Sketch {
         console.log("negative");
       }
       // position 2: parado con manos a los costados, pies juntos, al medio para, a los costados avanza
+      // hacia la derecha
       if (
-        ankleLeftFootX < 1000 &&
-        ankleLeftFootX > -2000 &&
-        ankleRightFootX > 3800 &&
-        ankleRightFootX < 7500 &&
-        headY > 1000 &&
-        rightHandX > -11000 &&
-        rightHandX < 0 &&
-        leftHandX < -1000 &&
-        leftHandX > -11000
+        ankleLeftFootX > 8000 &&
+        ankleLeftFootX < 16000 &&
+        ankleRightFootX > 18500 &&
+        ankleRightFootX < 24000 &&
+        headY > 4000 &&
+        rightHandX > 20000 &&
+        rightHandX < 35000 &&
+        leftHandX > 17000 &&
+        leftHandX < 28000
       ) {
         this.scrollTarget = 160 / 3;
+        // hacia la izquierda
       } else if (
-        ankleLeftFootX < 1000 &&
-        ankleLeftFootX > -2000 &&
-        ankleRightFootX > 3800 &&
-        ankleRightFootX < 7500 &&
-        headY > 1000 &&
-        rightHandX > 7500 &&
-        rightHandX < 16600 &&
-        leftHandX > 3000 &&
-        leftHandX < 11500
+        ankleLeftFootX > 8000 &&
+        ankleLeftFootX < 16000 &&
+        ankleRightFootX > 18500 &&
+        ankleRightFootX < 24000 &&
+        headY > 4000 &&
+        rightHandX < 14000 &&
+        rightHandX > 3000 &&
+        leftHandX > -1500 &&
+        leftHandX < 9000
       ) {
         this.scrollTarget = -160 / 3;
       }
