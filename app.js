@@ -76,7 +76,7 @@ import img70 from "./img/prato70.jpeg";
 import img71 from "./img/prato71.jpeg";
 import img72 from "./img/prato72.jpeg";
 import img73 from "./img/prato73.jpeg";
-import img74 from "./img/prato74.jpeg";
+// import img74 from "./img/prato74.jpeg";
 import img75 from "./img/prato75.jpeg";
 import img76 from "./img/prato76.jpeg";
 import img77 from "./img/prato77.jpeg";
@@ -308,7 +308,7 @@ class Sketch {
       img71,
       img72,
       img73,
-      img74,
+      // img74,
       img75,
       img76,
       img77,
