@@ -149,7 +149,7 @@ class Sketch {
     this.resize();
     this.setupResize();
     this.render();
-    // this.scrollEvent();
+    this.scrollEvent();
 
     this.kinectronConnected();
   }
@@ -317,7 +317,7 @@ class Sketch {
       // block.height = 100;
       // let image = slide.image;
 
-      //center images in the screen
+      //center images in the x of the screen
       c.pivot.x = -this.width / 2;
       // c.pivot.y = -this.height / 2 - i * this.margin;
 
@@ -378,7 +378,7 @@ class Sketch {
       slide.mask.clear();
       slide.mask.beginFill(0xff0000);
 
-      //mask filter applied to image size
+      //mask filter size
       let mx = 1300;
       let my = 1300;
 
