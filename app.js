@@ -3,15 +3,15 @@
 import * as PIXI from "pixi.js";
 import noise from "./noise.jpg";
 import img from "./img.jpg";
-import img1 from "./img/prato1.jpeg";
-import img2 from "./img/prato2.jpeg";
-import img3 from "./img/prato3.jpeg";
-import img4 from "./img/prato4.jpeg";
-import img5 from "./img/prato5.jpeg";
-import img6 from "./img/prato6.jpeg";
-import img7 from "./img/prato7.jpeg";
-import img8 from "./img/prato8.jpeg";
-import img9 from "./img/prato9.jpeg";
+import img1 from "./img/prato01.jpeg";
+import img2 from "./img/prato02.jpeg";
+import img3 from "./img/prato03.jpeg";
+import img4 from "./img/prato04.jpeg";
+import img5 from "./img/prato05.jpeg";
+import img6 from "./img/prato06.jpeg";
+import img7 from "./img/prato07.jpeg";
+import img8 from "./img/prato08.jpeg";
+import img9 from "./img/prato09.jpeg";
 import img10 from "./img/prato10.jpeg";
 import img11 from "./img/prato11.jpeg";
 import img12 from "./img/prato12.jpeg";
@@ -76,7 +76,7 @@ import img70 from "./img/prato70.jpeg";
 import img71 from "./img/prato71.jpeg";
 import img72 from "./img/prato72.jpeg";
 import img73 from "./img/prato73.jpeg";
-// import img74 from "./img/prato74.jpeg";
+import img74 from "./img/prato74.jpeg";
 import img75 from "./img/prato75.jpeg";
 import img76 from "./img/prato76.jpeg";
 import img77 from "./img/prato77.jpeg";
@@ -84,7 +84,6 @@ import img78 from "./img/prato78.jpeg";
 import img79 from "./img/prato79.jpeg";
 import img80 from "./img/prato80.jpeg";
 import img81 from "./img/prato81.jpeg";
-import img82 from "./img/prato82.jpeg";
 
 import displace from "./displace.png";
 import fragment from "./fragment.glsl";
@@ -308,7 +307,7 @@ class Sketch {
       img71,
       img72,
       img73,
-      // img74,
+      img74,
       img75,
       img76,
       img77,
@@ -316,7 +315,6 @@ class Sketch {
       img79,
       img80,
       img81,
-      img82,
     ];
 
     this.slides = images.map((image) => new PIXI.Sprite.from(image));
