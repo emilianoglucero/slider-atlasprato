@@ -124,6 +124,14 @@ let headTrackingState = 0;
 let kneeLeftTrackingState = 0;
 let kneeRightTrackingState = 0;
 
+let touchVelocity;
+
+var Velocity = require("touch-velocity"),
+  velocity = new Velocity();
+
+let isMobile = PIXI.utils.isMobile.any;
+console.log({ isMobile });
+
 class Sketch {
   constructor() {
     this.width = window.innerWidth;
@@ -153,9 +161,12 @@ class Sketch {
     this.resize();
     this.setupResize();
     this.render();
-    this.scrollEvent();
-
-    this.kinectronConnected();
+    if (isMobile) {
+      this.scrollEventTouch();
+    } else {
+      this.scrollEvent();
+    }
+    // this.kinectronConnected();
   }
 
   // scroll speed
@@ -164,72 +175,20 @@ class Sketch {
       // console.log("wheelDelta", e.wheelDelta);
       // wheelDelta is the mousewheel scroll speed, start with 120 or -120 and go up to 600 or -600 according to speed. Could be negative or positve depending on direction
       // this.scrollTarget looks like a sweet spot formula for the scroll speed
+      console.log(e.wheelDelta);
       this.scrollTarget = e.wheelDelta / 3;
     });
   }
-
-  kinectronConnected() {
-    kinectron = new Kinectron(kinectronIpAddress);
-    // connect with application over peer
-    kinectron.makeConnection();
-    kinectron.setKinectType("windows");
-    console.log("kinectron", kinectron);
-
-    // kinectron.getHands(myDrawHandsFunction);
-    // function myDrawHandsFunction(hands) {
-    //   console.log("hands", hands);
-    // }
-
-    kinectron.startTrackedBodies(bodyTracked);
-    function bodyTracked(body) {
-      rightHandY = body.joints[kinectron.HANDRIGHT].cameraY * 23000;
-      rightHandX = body.joints[kinectron.HANDRIGHT].cameraX * 23000;
-      leftHandX = body.joints[kinectron.HANDLEFT].cameraX * 23000;
-      leftHandY = body.joints[kinectron.HANDLEFT].cameraY * 23000;
-      // console.log({ handRight });
-      // console.log("eje X", handRight.cameraX * 1000);
-      // console.log("eje Y", handRight.cameraY * 1000);
-      // console.log("eje Z", handRight.cameraZ * 1000);
-      // console.log({ handLeft });
-      // console.log("eje X", handLeft.cameraX * 1000);
-      // console.log("eje Y", handLeft.cameraY * 1000);
-      // console.log("eje Z", handLeft.cameraZ * 1000);
-      // rightHandX = handLeft.cameraX * 23000;
-      // leftHandTrackingState = handLeft.trackingState;
-      // this.scrollTarget = 240 / 3;
-      ankleRightFootX = body.joints[kinectron.ANKLERIGHT].cameraX * 23000;
-      ankleLeftFootX = body.joints[kinectron.ANKLELEFT].cameraX * 23000;
-      kneeLeftX = body.joints[kinectron.KNEELEFT].cameraX * 23000;
-      kneeRightX = body.joints[kinectron.KNEERIGHT].cameraX * 23000;
-      headY = body.joints[kinectron.HEAD].cameraY * 23000;
-      // console.log(ankleRightFootX, "right foot");
-      // console.log(ankleLeftFootX, "left foot");
-      // console.log(headY, "head");
-      // console.log(rightHandX, "right hand");
-      // console.log(leftHandX, "left hand");
-      console.log("kneeLeftX", kneeLeftX);
-      console.log("kneeRightX", kneeRightX);
-      console.log("headY", headY);
-      console.log("rightHandY", rightHandY);
-      // console.log("ankleRightFootX", ankleRightFootX);
-      // console.log("ankleLeftFootX", ankleLeftFootX);
-      ankleRightFootTrackingState =
-        body.joints[kinectron.ANKLERIGHT].trackingState;
-      ankleLeftFootTrackingState =
-        body.joints[kinectron.ANKLELEFT].trackingState;
-      leftHandTrackingState = body.joints[kinectron.HANDLEFT].trackingState;
-      rightHandTrackingState = body.joints[kinectron.HANDRIGHT].trackingState;
-      headTrackingState = body.joints[kinectron.HEAD].trackingState;
-      kneeLeftTrackingState = body.joints[kinectron.KNEELEFT].trackingState;
-      kneeRightTrackingState = body.joints[kinectron.KNEERIGHT].trackingState;
-      // console.log("ankleRightFootTrackingState", ankleRightFootTrackingState);
-      // console.log("ankleLeftFootTrackingState", ankleLeftFootTrackingState);
-      // console.log("leftHandTrackingState", leftHandTrackingState);
-      // console.log("rightHandTrackingState", rightHandTrackingState);
-      // console.log("headTrackingState", headTrackingState);
-      // console.log("kneeLeftTrackingState", kneeLeftTrackingState);
-      // console.log("kneeRightTrackingState", kneeRightTrackingState);
-    }
+  scrollEventTouch() {
+    document.addEventListener("touchmove", function (evt) {
+      touchVelocity = Math.trunc(velocity.getVelocity());
+      velocity.updatePosition(evt.touches[0].pageX);
+    });
+    document.addEventListener("touchend", function (evt) {
+      // console.log(velocity.getVelocity());
+      console.log("touchend");
+      touchVelocity = 0;
+    });
   }
 
   add() {
@@ -487,108 +446,51 @@ class Sketch {
 
   render() {
     this.app.ticker.add((delta) => {
-      // this.scrollTarget simulates the mouse scroll
-      //position 2
-      // if (rightHandX > 2000 && leftHandTrackingState === 2) {
-      //   this.scrollTarget = 160 / 3;
-      // } else if (rightHandX < -2000 && leftHandTrackingState === 2) {
-      //   this.scrollTarget = -160 / 3;
-      // } else {
-      //   this.scrollTarget = 0;
-      // }
+      console.log({ touchVelocity });
+      // gesture scroll
+      if (isMobile) {
+        if (touchVelocity === 0) {
+          this.scrollTarget = 0;
+        } else if (touchVelocity > 50) {
+          this.scrollTarget = 120;
+        } else if (touchVelocity > 100) {
+          this.scrollTarget = 240;
+        } else if (touchVelocity > 150) {
+          this.scrollTarget = 360;
+        } else if (touchVelocity > 200) {
+          this.scrollTarget = 480;
+        } else if (touchVelocity > 250) {
+          this.scrollTarget = 600;
+        } else if (touchVelocity > 300) {
+          this.scrollTarget = 720;
+        } else if (touchVelocity > 350) {
+          this.scrollTarget = 840;
+        } else if (touchVelocity > 400) {
+          this.scrollTarget = 960;
+        } else if (touchVelocity > 450) {
+          this.scrollTarget = 1080;
+        }
 
-      // position 1: sit and with knee position
-      // if (
-      //   ankleRightFootX > 1200 &&
-      //   ankleRightFootX < 3400 &&
-      //   ankleLeftFootX > -800 &&
-      //   ankleLeftFootX < -6000
-      //   // ankleRightFootTrackingState === 2 &&
-      //   // ankleLeftFootTrackingState === 2
-      // ) {
-      //   // this.scrollTarget = 0;
-      //   this.scrollTarget = 160 / 3;
-      // }
-      if (
-        kneeRightX > 3000 &&
-        kneeRightX < 9500 &&
-        kneeRightTrackingState === 2 &&
-        kneeLeftX < -4500 &&
-        kneeLeftX > -11000 &&
-        KneeLeftTrackingState === 2 &&
-        headY < -1000 &&
-        headTrackingState === 2 &&
-        rightHandY < -3600 &&
-        rightHandTrackingState === 2
-        // ankleRightFootTrackingState === 2 &&
-        // ankleLeftFootTrackingState === 2
-      ) {
-        // this.scrollTarget = 0;
-        this.scrollTarget = 160 / 3;
-        console.log("positive");
-      } else if (
-        kneeRightX < 3000 &&
-        kneeRightTrackingState === 2 &&
-        kneeLeftX > -4500 &&
-        kneeLeftTrackingState === 2 &&
-        headY < -1000 &&
-        headTrackingState === 2 &&
-        rightHandY > -3600 &&
-        rightHandTrackingState === 2
-      ) {
-        this.scrollTarget = -160 / 3;
-        console.log("negative");
+        if (touchVelocity < -50) {
+          this.scrollTarget = -120;
+        } else if (touchVelocity < -100) {
+          this.scrollTarget = -240;
+        } else if (touchVelocity < -150) {
+          this.scrollTarget = -360;
+        } else if (touchVelocity < -200) {
+          this.scrollTarget = -480;
+        } else if (touchVelocity < -250) {
+          this.scrollTarget = -600;
+        } else if (touchVelocity < -300) {
+          this.scrollTarget = -720;
+        } else if (touchVelocity < -350) {
+          this.scrollTarget = -840;
+        } else if (touchVelocity < -400) {
+          this.scrollTarget = -960;
+        } else if (touchVelocity < -450) {
+          this.scrollTarget = -1080;
+        }
       }
-      // position 2: parado con manos a los costados, pies juntos, al medio para, a los costados avanza
-      // hacia la derecha
-      if (
-        ankleLeftFootX > 8000 &&
-        ankleLeftFootTrackingState === 2 &&
-        ankleLeftFootX < 16000 &&
-        ankleRightFootX > 18500 &&
-        ankleRightFootTrackingState === 2 &&
-        ankleRightFootX < 24000 &&
-        headY > 4000 &&
-        headTrackingState === 2 &&
-        rightHandX > 20000 &&
-        rightHandTrackingState === 2 &&
-        rightHandX < 35000 &&
-        leftHandX > 17000 &&
-        leftHandTrackingState === 2 &&
-        leftHandX < 28000
-      ) {
-        this.scrollTarget = 160 / 3;
-        // hacia la izquierda
-      } else if (
-        ankleLeftFootX > 8000 &&
-        ankleLeftFootTrackingState === 2 &&
-        ankleLeftFootX < 16000 &&
-        ankleRightFootX > 18500 &&
-        ankleRightFootTrackingState === 2 &&
-        ankleRightFootX < 24000 &&
-        headY > 4000 &&
-        headTrackingState === 2 &&
-        rightHandX < 14000 &&
-        rightHandTrackingState === 2 &&
-        rightHandX > 3000 &&
-        leftHandX > -1500 &&
-        leftHandTrackingState === 2 &&
-        leftHandX < 9000
-      ) {
-        this.scrollTarget = -160 / 3;
-      }
-
-      // } else if (
-      //   ankleRightFootX === rightSide &&
-      //   ankleLeftFootX === leftSide &&
-      //   ankleRightFootTrackingState === 2 &&
-      //   ankleLeftFootState === 2
-      // ) {
-      //   this.scrollTarget = 160 / 3;
-      // }
-      //  else {
-      //   this.scrollTarget = 0;
-      // }
 
       this.scroll -= (this.scroll - this.scrollTarget) * 0.1;
       this.scroll *= 0.9;
