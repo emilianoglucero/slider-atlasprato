@@ -91,11 +91,11 @@ import vertex from "./vertex.glsl";
 import { POSITION_1 } from "./constants";
 
 // fill in kinectron ip address here ie. "127.16.231.33"
-let kinectronIpAddress = "192.168.206.223";
+// let kinectronIpAddress = "192.168.206.223";
 
-// declare kinectron
-let kinectron = null;
-kinectron = new Kinectron(kinectronIpAddress);
+// // declare kinectron
+// let kinectron = null;
+// kinectron = new Kinectron(kinectronIpAddress);
 
 // delclare skeleton joints
 let rightHandX = 0;
